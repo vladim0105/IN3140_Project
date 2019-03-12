@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-	<group ns="project">
-		<node pkg="project" name="publisher_node" type="coords_publisher.py" output="screen"/>
-	</group>
-</launch>

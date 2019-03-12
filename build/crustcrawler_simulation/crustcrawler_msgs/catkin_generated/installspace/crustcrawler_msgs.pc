@@ -1,0 +1,8 @@
+prefix=/home/vladimmo/ros/install
+
+Name: crustcrawler_msgs
+Description: Description of crustcrawler_msgs
+Version: 0.0.1
+Cflags: -I/home/vladimmo/ros/install/include
+Libs: -L/home/vladimmo/ros/install/lib 
+Requires: message_runtime

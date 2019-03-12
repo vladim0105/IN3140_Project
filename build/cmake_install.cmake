@@ -117,7 +117,15 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/vladimmo/ros/build/gtest/cmake_install.cmake")
-  include("/home/vladimmo/ros/build/project/cmake_install.cmake")
+  include("/home/vladimmo/ros/build/crustcrawler_pen/crustcrawler_pen/cmake_install.cmake")
+  include("/home/vladimmo/ros/build/crustcrawler_simulation/crustcrawler_simulation/cmake_install.cmake")
+  include("/home/vladimmo/ros/build/crustcrawler_simulation/crustcrawler_msgs/cmake_install.cmake")
+  include("/home/vladimmo/ros/build/controlled_movement/cmake_install.cmake")
+  include("/home/vladimmo/ros/build/crustcrawler_simulation/crustcrawler_control/cmake_install.cmake")
+  include("/home/vladimmo/ros/build/crustcrawler_simulation/crustcrawler_description/cmake_install.cmake")
+  include("/home/vladimmo/ros/build/crustcrawler_simulation/crustcrawler_gazebo/cmake_install.cmake")
+  include("/home/vladimmo/ros/build/crustcrawler_pen/crustcrawler_pen_gazebo/cmake_install.cmake")
+  include("/home/vladimmo/ros/build/crustcrawler_pen/crustcrawler_pen_description/cmake_install.cmake")
 
 endif()
 

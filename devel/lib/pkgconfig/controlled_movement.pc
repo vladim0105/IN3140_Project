@@ -1,0 +1,8 @@
+prefix=/home/vladimmo/ros/devel
+
+Name: controlled_movement
+Description: Description of controlled_movement
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/vladimmo/ros/devel/lib 
+Requires: 

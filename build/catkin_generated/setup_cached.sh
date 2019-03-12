@@ -7,4 +7,6 @@
 # new environment variables
 
 # modified environment variables
+export PKG_CONFIG_PATH="/home/vladimmo/ros/devel/lib/pkgconfig:$PKG_CONFIG_PATH"
 export PWD="/home/vladimmo/ros/build"
+export PYTHONPATH="/home/vladimmo/ros/devel/lib/python2.7/dist-packages:$PYTHONPATH"

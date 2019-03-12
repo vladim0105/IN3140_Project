@@ -259,11 +259,95 @@ _gtest_INCLUDES:FILEPATH=/usr/include/gtest/gtest.h
 //Path to a file.
 _gtest_SOURCES:FILEPATH=/usr/src/gtest/src/gtest.cc
 
+//The directory containing a CMake configuration file for actionLib.
+actionLib_DIR:PATH=actionLib_DIR-NOTFOUND
+
+//The directory containing a CMake configuration file for actionlib_msgs.
+actionlib_msgs_DIR:PATH=/opt/ros/kinetic/share/actionlib_msgs/cmake
+
 //The directory containing a CMake configuration file for catkin.
 catkin_DIR:PATH=/opt/ros/kinetic/share/catkin/cmake
 
+//The directory containing a CMake configuration file for control_msgs.
+control_msgs_DIR:PATH=/opt/ros/kinetic/share/control_msgs/cmake
+
+//Value Computed by CMake
+controlled_movement_BINARY_DIR:STATIC=/home/vladimmo/ros/build/controlled_movement
+
+//Value Computed by CMake
+controlled_movement_SOURCE_DIR:STATIC=/home/vladimmo/ros/src/controlled_movement
+
 //The directory containing a CMake configuration file for cpp_common.
 cpp_common_DIR:PATH=/opt/ros/kinetic/share/cpp_common/cmake
+
+//Value Computed by CMake
+crustcrawler_control_BINARY_DIR:STATIC=/home/vladimmo/ros/build/crustcrawler_simulation/crustcrawler_control
+
+//Value Computed by CMake
+crustcrawler_control_SOURCE_DIR:STATIC=/home/vladimmo/ros/src/crustcrawler_simulation/crustcrawler_control
+
+//Value Computed by CMake
+crustcrawler_description_BINARY_DIR:STATIC=/home/vladimmo/ros/build/crustcrawler_simulation/crustcrawler_description
+
+//The directory containing a CMake configuration file for crustcrawler_description.
+crustcrawler_description_DIR:PATH=/home/vladimmo/ros/devel/share/crustcrawler_description/cmake
+
+//Value Computed by CMake
+crustcrawler_description_SOURCE_DIR:STATIC=/home/vladimmo/ros/src/crustcrawler_simulation/crustcrawler_description
+
+//Value Computed by CMake
+crustcrawler_gazebo_BINARY_DIR:STATIC=/home/vladimmo/ros/build/crustcrawler_simulation/crustcrawler_gazebo
+
+//Value Computed by CMake
+crustcrawler_gazebo_SOURCE_DIR:STATIC=/home/vladimmo/ros/src/crustcrawler_simulation/crustcrawler_gazebo
+
+//Value Computed by CMake
+crustcrawler_msgs_BINARY_DIR:STATIC=/home/vladimmo/ros/build/crustcrawler_simulation/crustcrawler_msgs
+
+//Value Computed by CMake
+crustcrawler_msgs_SOURCE_DIR:STATIC=/home/vladimmo/ros/src/crustcrawler_simulation/crustcrawler_msgs
+
+//Value Computed by CMake
+crustcrawler_pen_BINARY_DIR:STATIC=/home/vladimmo/ros/build/crustcrawler_pen/crustcrawler_pen
+
+//Value Computed by CMake
+crustcrawler_pen_SOURCE_DIR:STATIC=/home/vladimmo/ros/src/crustcrawler_pen/crustcrawler_pen
+
+//Value Computed by CMake
+crustcrawler_pen_description_BINARY_DIR:STATIC=/home/vladimmo/ros/build/crustcrawler_pen/crustcrawler_pen_description
+
+//Value Computed by CMake
+crustcrawler_pen_description_SOURCE_DIR:STATIC=/home/vladimmo/ros/src/crustcrawler_pen/crustcrawler_pen_description
+
+//Value Computed by CMake
+crustcrawler_pen_gazebo_BINARY_DIR:STATIC=/home/vladimmo/ros/build/crustcrawler_pen/crustcrawler_pen_gazebo
+
+//Value Computed by CMake
+crustcrawler_pen_gazebo_SOURCE_DIR:STATIC=/home/vladimmo/ros/src/crustcrawler_pen/crustcrawler_pen_gazebo
+
+//Value Computed by CMake
+crustcrawler_simulation_BINARY_DIR:STATIC=/home/vladimmo/ros/build/crustcrawler_simulation/crustcrawler_simulation
+
+//Value Computed by CMake
+crustcrawler_simulation_SOURCE_DIR:STATIC=/home/vladimmo/ros/src/crustcrawler_simulation/crustcrawler_simulation
+
+//The directory containing a CMake configuration file for gencpp.
+gencpp_DIR:PATH=/opt/ros/kinetic/share/gencpp/cmake
+
+//The directory containing a CMake configuration file for geneus.
+geneus_DIR:PATH=/opt/ros/kinetic/share/geneus/cmake
+
+//The directory containing a CMake configuration file for genlisp.
+genlisp_DIR:PATH=/opt/ros/kinetic/share/genlisp/cmake
+
+//The directory containing a CMake configuration file for genmsg.
+genmsg_DIR:PATH=/opt/ros/kinetic/share/genmsg/cmake
+
+//The directory containing a CMake configuration file for gennodejs.
+gennodejs_DIR:PATH=/opt/ros/kinetic/share/gennodejs/cmake
+
+//The directory containing a CMake configuration file for genpy.
+genpy_DIR:PATH=/opt/ros/kinetic/share/genpy/cmake
 
 //The directory containing a CMake configuration file for geometry_msgs.
 geometry_msgs_DIR:PATH=/opt/ros/kinetic/share/geometry_msgs/cmake
@@ -311,20 +395,20 @@ gtest_main_LIB_DEPENDS:STATIC=general;-lpthread;general;gtest;
 //Path to a library.
 lib:FILEPATH=/opt/ros/kinetic/lib/librostime.so
 
+//The directory containing a CMake configuration file for message_generation.
+message_generation_DIR:PATH=/opt/ros/kinetic/share/message_generation/cmake
+
 //The directory containing a CMake configuration file for message_runtime.
 message_runtime_DIR:PATH=/opt/ros/kinetic/share/message_runtime/cmake
-
-//Value Computed by CMake
-project_BINARY_DIR:STATIC=/home/vladimmo/ros/build/project
-
-//Value Computed by CMake
-project_SOURCE_DIR:STATIC=/home/vladimmo/ros/src/project
 
 //The directory containing a CMake configuration file for roscpp_serialization.
 roscpp_serialization_DIR:PATH=/opt/ros/kinetic/share/roscpp_serialization/cmake
 
 //The directory containing a CMake configuration file for roscpp_traits.
 roscpp_traits_DIR:PATH=/opt/ros/kinetic/share/roscpp_traits/cmake
+
+//The directory containing a CMake configuration file for roslaunch.
+roslaunch_DIR:PATH=/opt/ros/kinetic/share/roslaunch/cmake
 
 //The directory containing a CMake configuration file for rospy.
 rospy_DIR:PATH=/opt/ros/kinetic/share/rospy/cmake
@@ -334,6 +418,9 @@ rostime_DIR:PATH=/opt/ros/kinetic/share/rostime/cmake
 
 //The directory containing a CMake configuration file for std_msgs.
 std_msgs_DIR:PATH=/opt/ros/kinetic/share/std_msgs/cmake
+
+//The directory containing a CMake configuration file for trajectory_msgs.
+trajectory_msgs_DIR:PATH=/opt/ros/kinetic/share/trajectory_msgs/cmake
 
 
 ########################
@@ -437,7 +524,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=4
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=12
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

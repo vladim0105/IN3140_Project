@@ -1,0 +1,8 @@
+prefix=/home/vladimmo/ros/devel
+
+Name: crustcrawler_description
+Description: Description of crustcrawler_description
+Version: 0.0.1
+Cflags: 
+Libs: -L/home/vladimmo/ros/devel/lib 
+Requires: 
