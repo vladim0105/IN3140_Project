@@ -1,0 +1,8 @@
+prefix=/home/vladimmo/ros/devel
+
+Name: project
+Description: Description of project
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/vladimmo/ros/devel/lib 
+Requires: 
