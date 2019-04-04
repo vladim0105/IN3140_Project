@@ -72,8 +72,8 @@ def rotate_path(path, angle, axis):
     :param axis: Unit vector to rotate around
     :returns: List of rotated points
     """
-    c = cos(angle)
-    s = sin(angle)
+    c = np.cos(angle)
+    s = np.sin(angle)
     v = 1 - c
     kx = axis[0]
     ký = axis[1]
@@ -103,11 +103,11 @@ def generate_path(origin, radius, num, angle, axis):
     """
     path = []
     #Distance between points in radians
-    point_distance = 2*Math.pi/num
+    point_distance = 2*np.pi/num
     #Plot the points from 0 to 2PI with spacing
-    for rad in range(0, 2*Math.pi, point_distance):
-        x = origin+radius*Math.cos(rad)
-        y = origin+radius*Math.sin(rad)
+    for rad in range(0, 2*np.pi, point_distance):
+        x = origin+radius*np.cos(rad)
+        y = origin+radius*np.sin(rad)
         z = origin
         point = [x, y, z]
         path.append(point)
