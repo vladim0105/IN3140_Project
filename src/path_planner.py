@@ -28,19 +28,25 @@ def path_length(path):
         length += np.linalg.norm(p1 - p0)
     return length
 
-
 def inverse_kinematic(position):
     """
-    MATTIAS
     Calculate the inverse kinematic of the Crustcrawler
 
     :param position: Desired end-point position
     :returns: Three element vector of joint angles
     """
-    # TODO: Implement inverse kinematics function using your equations from assignment 1 task 5).
- 
-    pass
+    # TODO: Implement inverse kinematics function using your equations from assignment 1 task 5). 
 
+    x=position[0]
+    y=position[1]
+    z=position[2]
+    r=math.sqrt(x**2+y**2)
+    s=z-L1
+    D=(r**2+s**2-L2**2-L3**2)/2*L2*L3)
+    t1=math.atan2(y,x) - math.pi/2
+    t3=math.atan2(math.sqrt(1-D**2),D)
+    t2=math.atan2(L3*math.sin(t3),L2+L3*math.cos(t3)) - math.atan2(s,r)
+    return [t1,t2,t3]
 
 def create_trajectory_point(position, seconds):
     """
@@ -97,13 +103,40 @@ def generate_path(origin, radius, num, angle, axis):
 
 def generate_movement(path):
     """
-    MATTIAS
     Generate Crustcrawler arm movement through a message
 
     :param path: List of points to draw
     :returns: FollowJointTrajectoryGoal describing the arm movement
     """
-    pass
+    # Generate our goal message
+    movement = FollowJointTrajectoryGoal()
+    # Names describes which joint is actuated by which element in the coming
+    # matrices
+    movement.trajectory.joint_names.extend(['joint_1', 'joint_2', 'joint_3'])
+    # Goal tolerance describes how much we allow the movement to deviate
+    # from true value at the end
+    movement.goal_tolerance.extend([
+        JointTolerance('joint_1', 0.1, 0., 0.),
+        JointTolerance('joint_2', 0.1, 0., 0.),
+        JointTolerance('joint_3', 0.1, 0., 0.)])
+    # Goal time is how many seconds we allow the movement to take beyond
+    # what we define in the trajectory
+    movement.goal_time_tolerance = rospy.Duration(0.5)  # seconds
+    time = 4.0  # Cumulative time since start in seconds
+    movement.trajectory.points.append(create_trajectory_point([0., 0., np.pi / 2.], time))
+    # Calculate total circle length
+    length = path_length(path)
+    # Calculate how much time we have to process each point of the circle
+    time_delta = (length / 2.) / len(path)
+    for point in path[1:]:
+    time += time_delta
+    movement.trajectory.points.append(
+	create_trajectory_point(inverse_kinematic(point), time))
+    # Once drawing is done we add the default position
+    time += 4.0
+    movement.trajectory.points.append(
+        create_trajectory_point([0., 0., np.pi / 2.], time))
+    return movement
 
 
 def draw_circle(origin, radius, num, angle, axis):
