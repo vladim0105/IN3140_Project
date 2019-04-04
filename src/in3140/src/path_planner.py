@@ -42,12 +42,12 @@ def inverse_kinematic(position):
     x=position[0]
     y=position[1]
     z=position[2]
-    r=math.sqrt(x**2+y**2)
+    r=np.sqrt(x**2+y**2)
     s=z-L1
     D=(r**2+s**2-L2**2-L3**2)/(2*L2*L3)
-    t1=math.atan2(y,x) - math.pi/2
-    t3=math.atan2(math.sqrt(1-D**2),D)
-    t2=math.atan2(L3*math.sin(t3),L2+L3*math.cos(t3)) - math.atan2(s,r)
+    t1=np.arctan2(y,x) - np.pi/2
+    t3=np.arctan2(np.sqrt(1-D**2),D)
+    t2=np.arctan2(L3*np.sin(t3),L2+L3*np.cos(t3)) - np.arctan2(s,r)
     return [t1,t2,t3]
 
 def create_trajectory_point(position, seconds):
