@@ -78,7 +78,7 @@ def rotate_path(path, angle, axis):
     s = np.sin(angle)
     v = 1 - c
     kx = axis[0]
-    ký = axis[1]
+    ky = axis[1]
     kz = axis[2]
 	
     for p in path:
