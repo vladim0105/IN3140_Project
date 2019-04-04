@@ -104,17 +104,15 @@ def generate_path(origin, radius, num, angle, axis):
     :returns: List of points to draw, where a point is an array: [x, y, z]
     """
     path = []
-    #Distance between points in radians
-    point_distance = 2*np.pi/num
-    #Plot the points from 0 to 2PI with spacing
-    for rad in range(0, 2*np.pi, point_distance):
-        x = origin+radius*np.cos(rad)
-        y = origin+radius*np.sin(rad)
-        z = origin
-        point = [x, y, z]
-        path.append(point)
-
-    return rotate_path(path, angle, axis)
+    distance_between = (2.0 * np.pi) / float(num)
+    for i in range(num + 1):
+        index = i * distance_between
+    	path.append(radius * np.array([np.cos(index), np.sin(index), 0.0]))
+    # Rotate using the rotation function
+    path = rotate_path(path, angle, axis)
+    # Add origin to path:
+    path = [p + origin for p in path]
+    return path
 
 
 def generate_movement(path):
