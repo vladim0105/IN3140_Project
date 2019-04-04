@@ -145,9 +145,9 @@ def generate_movement(path):
     # Calculate how much time we have to process each point of the circle
     time_delta = (length / 2.) / len(path)
     for point in path[1:]:
-    time += time_delta
-    movement.trajectory.points.append(
-	create_trajectory_point(inverse_kinematic(point), time))
+    	time += time_delta
+    	movement.trajectory.points.append(create_trajectory_point(inverse_kinematic(point), time))
+	
     # Once drawing is done we add the default position
     time += 4.0
     movement.trajectory.points.append(
