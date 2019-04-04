@@ -36,7 +36,9 @@ def inverse_kinematic(position):
     :returns: Three element vector of joint angles
     """
     # TODO: Implement inverse kinematics function using your equations from assignment 1 task 5). 
-
+    L1 = 100.9
+    L2 = 222.1
+    L3 = 136.2
     x=position[0]
     y=position[1]
     z=position[2]
