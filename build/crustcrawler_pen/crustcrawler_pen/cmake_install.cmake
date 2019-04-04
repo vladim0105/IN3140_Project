@@ -1,8 +1,8 @@
-# Install script for directory: /home/vladimmo/ros/src/crustcrawler_pen/crustcrawler_pen
+# Install script for directory: /home/vladimmo/M-drive/project/src/crustcrawler_pen/crustcrawler_pen
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/vladimmo/ros/install")
+  set(CMAKE_INSTALL_PREFIX "/home/vladimmo/M-drive/project/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -33,6 +33,6 @@ if(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/crustcrawler_pen" TYPE FILE FILES "/home/vladimmo/ros/src/crustcrawler_pen/crustcrawler_pen/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/crustcrawler_pen" TYPE FILE FILES "/home/vladimmo/M-drive/project/src/crustcrawler_pen/crustcrawler_pen/package.xml")
 endif()
 

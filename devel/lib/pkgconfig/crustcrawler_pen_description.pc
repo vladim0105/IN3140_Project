@@ -1,8 +1,8 @@
-prefix=/home/vladimmo/ros/devel
+prefix=/home/vladimmo/M-drive/project/devel
 
 Name: crustcrawler_pen_description
 Description: Description of crustcrawler_pen_description
 Version: 0.1.0
 Cflags: 
-Libs: -L/home/vladimmo/ros/devel/lib 
+Libs: -L/home/vladimmo/M-drive/project/devel/lib 
 Requires: crustcrawler_description

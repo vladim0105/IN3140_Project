@@ -1,8 +1,8 @@
-# Install script for directory: /home/vladimmo/ros/src/crustcrawler_simulation/crustcrawler_control
+# Install script for directory: /home/vladimmo/M-drive/project/src/crustcrawler_simulation/crustcrawler_control
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/vladimmo/ros/install")
+  set(CMAKE_INSTALL_PREFIX "/home/vladimmo/M-drive/project/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -33,21 +33,21 @@ if(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/vladimmo/ros/build/crustcrawler_simulation/crustcrawler_control/catkin_generated/installspace/crustcrawler_control.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/vladimmo/M-drive/project/build/crustcrawler_simulation/crustcrawler_control/catkin_generated/installspace/crustcrawler_control.pc")
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/crustcrawler_control/cmake" TYPE FILE FILES
-    "/home/vladimmo/ros/build/crustcrawler_simulation/crustcrawler_control/catkin_generated/installspace/crustcrawler_controlConfig.cmake"
-    "/home/vladimmo/ros/build/crustcrawler_simulation/crustcrawler_control/catkin_generated/installspace/crustcrawler_controlConfig-version.cmake"
+    "/home/vladimmo/M-drive/project/build/crustcrawler_simulation/crustcrawler_control/catkin_generated/installspace/crustcrawler_controlConfig.cmake"
+    "/home/vladimmo/M-drive/project/build/crustcrawler_simulation/crustcrawler_control/catkin_generated/installspace/crustcrawler_controlConfig-version.cmake"
     )
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/crustcrawler_control" TYPE FILE FILES "/home/vladimmo/ros/src/crustcrawler_simulation/crustcrawler_control/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/crustcrawler_control" TYPE FILE FILES "/home/vladimmo/M-drive/project/src/crustcrawler_simulation/crustcrawler_control/package.xml")
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/crustcrawler_control" TYPE DIRECTORY FILES "/home/vladimmo/ros/src/crustcrawler_simulation/crustcrawler_control/launch")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/crustcrawler_control" TYPE DIRECTORY FILES "/home/vladimmo/M-drive/project/src/crustcrawler_simulation/crustcrawler_control/launch")
 endif()
 

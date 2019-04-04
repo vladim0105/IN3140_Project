@@ -1,8 +1,8 @@
-# Install script for directory: /home/vladimmo/ros/src/controlled_movement
+# Install script for directory: /home/vladimmo/M-drive/project/src/controlled_movement
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/vladimmo/ros/install")
+  set(CMAKE_INSTALL_PREFIX "/home/vladimmo/M-drive/project/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -33,17 +33,17 @@ if(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/vladimmo/ros/build/controlled_movement/catkin_generated/installspace/controlled_movement.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/vladimmo/M-drive/project/build/controlled_movement/catkin_generated/installspace/controlled_movement.pc")
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/controlled_movement/cmake" TYPE FILE FILES
-    "/home/vladimmo/ros/build/controlled_movement/catkin_generated/installspace/controlled_movementConfig.cmake"
-    "/home/vladimmo/ros/build/controlled_movement/catkin_generated/installspace/controlled_movementConfig-version.cmake"
+    "/home/vladimmo/M-drive/project/build/controlled_movement/catkin_generated/installspace/controlled_movementConfig.cmake"
+    "/home/vladimmo/M-drive/project/build/controlled_movement/catkin_generated/installspace/controlled_movementConfig-version.cmake"
     )
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/controlled_movement" TYPE FILE FILES "/home/vladimmo/ros/src/controlled_movement/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/controlled_movement" TYPE FILE FILES "/home/vladimmo/M-drive/project/src/controlled_movement/package.xml")
 endif()
 
