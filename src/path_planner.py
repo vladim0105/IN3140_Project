@@ -74,16 +74,25 @@ def generate_path(origin, radius, num, angle, axis):
     """
     VLADIMMO
     Generate path in 3D space of where to draw circle
-
     :param origin: 3D point of circle origin
     :param radius: Radius of circle in centimeters
     :param num: Number of points in circle
     :param angle: Angle to rotate circle by
     :param axis: Unit vector to rotate circle around
-    :returns: List of points to draw
+    :returns: List of points to draw, where a point is an array: [x, y, z]
     """
-    
-    pass
+    path = []
+    #Distance between points in radians
+    point_distance = 2*Math.pi/num
+    #Plot the points from 0 to 2PI with spacing
+    for rad in range(0, 2*Math.pi, point_distance):
+        x = origin+radius*Math.cos(rad)
+        y = origin+radius*Math.sin(rad)
+        z = origin
+        point = [x, y, z]
+        path.append(point)
+
+    return rotate_path(path, angle, axis)
 
 
 def generate_movement(path):
