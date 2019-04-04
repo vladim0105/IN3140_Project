@@ -44,7 +44,7 @@ def inverse_kinematic(position):
     z=position[2]
     r=math.sqrt(x**2+y**2)
     s=z-L1
-    D=(r**2+s**2-L2**2-L3**2)/2*L2*L3)
+    D=(r**2+s**2-L2**2-L3**2)/(2*L2*L3)
     t1=math.atan2(y,x) - math.pi/2
     t3=math.atan2(math.sqrt(1-D**2),D)
     t2=math.atan2(L3*math.sin(t3),L2+L3*math.cos(t3)) - math.atan2(s,r)
