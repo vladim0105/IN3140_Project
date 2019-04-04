@@ -72,7 +72,21 @@ def rotate_path(path, angle, axis):
     :param axis: Unit vector to rotate around
     :returns: List of rotated points
     """
-    # TODO: Implement angle-axis rotation
+    c = cos(angle)
+    s = sin(angle)
+    v = 1 - c
+    kx = axis[0]
+    ký = axis[1]
+    kz = axis[2]
+	
+    for p in path:
+	p0_old = p[0]
+	p1_old = p[1]
+	p2_old = p[2]
+	p[0] = (kx * kx * v + c) * p0_old + (kx * ky * v - kz * s) * p1_old + (kx * kz * v + ky * s) * p2_old
+	p[1] = (kx * ky * v + kz * s) * p0_old + (ky * ky * v + c) * p1_old + (ky * kz * v - kx * s) * p2_old
+	p[2] = (kx * kz * v - ky * s) * p0_old + (ky * kz * v + kx * s) * p1_old + (kz * kz * v + c) * p2_old
+	
     return path
 
 
