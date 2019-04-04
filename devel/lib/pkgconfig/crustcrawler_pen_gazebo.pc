@@ -1,8 +1,8 @@
-prefix=/home/vladimmo/M-drive/project/devel
+prefix=/home/vladimmo/M-drive/IN3140_Project/devel
 
 Name: crustcrawler_pen_gazebo
 Description: Description of crustcrawler_pen_gazebo
 Version: 0.1.0
 Cflags: 
-Libs: -L/home/vladimmo/M-drive/project/devel/lib 
+Libs: -L/home/vladimmo/M-drive/IN3140_Project/devel/lib 
 Requires: 
