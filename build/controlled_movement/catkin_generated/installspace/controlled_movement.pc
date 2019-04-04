@@ -1,8 +1,0 @@
-prefix=/home/vladimmo/M-drive/project/install
-
-Name: controlled_movement
-Description: Description of controlled_movement
-Version: 0.0.0
-Cflags: 
-Libs: -L/home/vladimmo/M-drive/project/install/lib 
-Requires: 

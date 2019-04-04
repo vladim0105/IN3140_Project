@@ -31,12 +31,14 @@ def path_length(path):
 
 def inverse_kinematic(position):
     """
+    MATTIAS
     Calculate the inverse kinematic of the Crustcrawler
 
     :param position: Desired end-point position
     :returns: Three element vector of joint angles
     """
-    # TODO: Implement inverse kinematics function using your equations from assignment 1 task 5). 
+    # TODO: Implement inverse kinematics function using your equations from assignment 1 task 5).
+ 
     pass
 
 
@@ -56,6 +58,7 @@ def create_trajectory_point(position, seconds):
 
 def rotate_path(path, angle, axis):
     """
+    DANIELA
     Rotate all elements of a path by angle-axis rotation
 
     :param path: List of points
@@ -69,6 +72,7 @@ def rotate_path(path, angle, axis):
 
 def generate_path(origin, radius, num, angle, axis):
     """
+    VLADIMMO
     Generate path in 3D space of where to draw circle
 
     :param origin: 3D point of circle origin
@@ -84,6 +88,7 @@ def generate_path(origin, radius, num, angle, axis):
 
 def generate_movement(path):
     """
+    MATTIAS
     Generate Crustcrawler arm movement through a message
 
     :param path: List of points to draw
@@ -94,6 +99,7 @@ def generate_movement(path):
 
 def draw_circle(origin, radius, num, angle, axis):
     """
+    VLADIMMO
     Draw circle using Crustcrawler
 
     :param origin: 3D point of circle origin
@@ -102,7 +108,29 @@ def draw_circle(origin, radius, num, angle, axis):
     :param angle: Angle to rotate circle by
     :param axis: Unit vector to rotate circle around
     """
-    pass
+    # First start by creating action client, this is responsible for passing
+    # our parameters and monitoring the Crustcrawler during operations
+    client = actionlib.SimpleActionClient(
+            '/crustcrawler/controller/follow_joint_trajectory',
+            FollowJointTrajectoryAction)
+    # Generate circle path
+    path = generate_path(origin, radius, num, angle, axis)
+    # Generate arm movement path
+    goal = generate_movement(path)
+    # Wait for arm to respond to action client
+    client.wait_for_server()
+    # Send goal
+    client.send_goal(goal)
+    # Wait for arm to perform our movement
+    client.wait_for_result()
+    # Finally print status of arm, did it work or not?
+    result = client.get_result()
+    if not result.error_code:
+        print("Crustcrawler done!")
+    else:
+        print("Crustcrawler failed due to: '{!s}'({!s})"
+              .format(result.error_string, result.error_code))
+    return result.error_code
 
 
 if __name__ == '__main__':

@@ -1,8 +1,0 @@
-prefix=/home/vladimmo/M-drive/project/install
-
-Name: crustcrawler_msgs
-Description: Description of crustcrawler_msgs
-Version: 0.0.1
-Cflags: -I/home/vladimmo/M-drive/project/install/include
-Libs: -L/home/vladimmo/M-drive/project/install/lib 
-Requires: message_runtime

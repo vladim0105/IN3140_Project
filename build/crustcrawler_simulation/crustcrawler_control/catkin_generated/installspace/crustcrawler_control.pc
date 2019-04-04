@@ -1,8 +1,0 @@
-prefix=/home/vladimmo/M-drive/project/install
-
-Name: crustcrawler_control
-Description: Description of crustcrawler_control
-Version: 0.0.1
-Cflags: 
-Libs: -L/home/vladimmo/M-drive/project/install/lib 
-Requires: 
