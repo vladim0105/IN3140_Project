@@ -80,16 +80,14 @@ def rotate_path(path, angle, axis):
     kx = axis[0]
     ky = axis[1]
     kz = axis[2]
-	
+    newPath = []	
     for p in path:
-	p0_old = p[0]
-	p1_old = p[1]
-	p2_old = p[2]
-	p[0] = (kx * kx * v + c) * p0_old + (kx * ky * v - kz * s) * p1_old + (kx * kz * v + ky * s) * p2_old
-	p[1] = (kx * ky * v + kz * s) * p0_old + (ky * ky * v + c) * p1_old + (ky * kz * v - kx * s) * p2_old
-	p[2] = (kx * kz * v - ky * s) * p0_old + (ky * kz * v + kx * s) * p1_old + (kz * kz * v + c) * p2_old
-	
-    return path
+	newPoint = [0, 0, 0]
+	newPoint[0] = (kx * kx * v + c) * p[0] + (kx * ky * v - kz * s) * p[1] + (kx * kz * v + ky * s) * p[2]
+	newPoint[1] = (kx * ky * v + kz * s) * p[0] + (ky * ky * v + c) * p[1] + (ky * kz * v - kx * s) * p[2]
+	newPoint[2] = (kx * kz * v - ky * s) * p[0] + (ky * kz * v + kx * s) * p[1] + (kz * kz * v + c) * p[2]
+	newPath.append(newPoint)
+    return newPath
 
 
 def generate_path(origin, radius, num, angle, axis):
