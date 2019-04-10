@@ -8,7 +8,7 @@ project(in3140)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  actionLib
+  actionlib
   control_msgs
   rospy
   trajectory_msgs
