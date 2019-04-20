@@ -14,6 +14,7 @@ from trajectory_msgs.msg import JointTrajectoryPoint
 import actionlib
 import numpy as np
 import rospy
+from image_to_path import getContourPaths
 
 
 def path_length(path):
@@ -28,6 +29,7 @@ def path_length(path):
         length += np.linalg.norm(p1 - p0)
     return length
 
+
 def inverse_kinematic(position):
     """
     Calculate the inverse kinematic of the Crustcrawler
@@ -35,20 +37,21 @@ def inverse_kinematic(position):
     :param position: Desired end-point position
     :returns: Three element vector of joint angles
     """
-    # TODO: Implement inverse kinematics function using your equations from assignment 1 task 5). 
+    # TODO: Implement inverse kinematics function using your equations from assignment 1 task 5).
     L1 = 100.9
     L2 = 222.1
     L3 = 136.2
-    x=position[0]
-    y=position[1]
-    z=position[2]
-    r=np.sqrt(x**2+y**2)
-    s=z-L1
-    D=(r**2+s**2-L2**2-L3**2)/(2*L2*L3)
-    t1=np.arctan2(y,x) - np.pi/2
-    t3=np.arctan2(np.sqrt(1-D**2),D)
-    t2=np.arctan2(L3*np.sin(t3),L2+L3*np.cos(t3)) - np.arctan2(s,r)
-    return [t1,t2,t3]
+    x = position[0]
+    y = position[1]
+    z = position[2]
+    r = np.sqrt(x ** 2 + y ** 2)
+    s = z - L1
+    D = (r ** 2 + s ** 2 - L2 ** 2 - L3 ** 2) / (2 * L2 * L3)
+    t1 = np.arctan2(y, x) - np.pi / 2
+    t3 = np.arctan2(np.sqrt(1 - D ** 2), D)
+    t2 = np.arctan2(L3 * np.sin(t3), L2 + L3 * np.cos(t3)) - np.arctan2(s, r)
+    return [t1, t2, t3]
+
 
 def create_trajectory_point(position, seconds):
     """
@@ -80,13 +83,25 @@ def rotate_path(path, angle, axis):
     kx = axis[0]
     ky = axis[1]
     kz = axis[2]
-    newPath = []	
+    newPath = []
     for p in path:
-	newPoint = [0, 0, 0]
-	newPoint[0] = (kx * kx * v + c) * p[0] + (kx * ky * v - kz * s) * p[1] + (kx * kz * v + ky * s) * p[2]
-	newPoint[1] = (kx * ky * v + kz * s) * p[0] + (ky * ky * v + c) * p[1] + (ky * kz * v - kx * s) * p[2]
-	newPoint[2] = (kx * kz * v - ky * s) * p[0] + (ky * kz * v + kx * s) * p[1] + (kz * kz * v + c) * p[2]
-	newPath.append(newPoint)
+        newPoint = [0, 0, 0]
+        newPoint[0] = (
+            (kx * kx * v + c) * p[0]
+            + (kx * ky * v - kz * s) * p[1]
+            + (kx * kz * v + ky * s) * p[2]
+        )
+        newPoint[1] = (
+            (kx * ky * v + kz * s) * p[0]
+            + (ky * ky * v + c) * p[1]
+            + (ky * kz * v - kx * s) * p[2]
+        )
+        newPoint[2] = (
+            (kx * kz * v - ky * s) * p[0]
+            + (ky * kz * v + kx * s) * p[1]
+            + (kz * kz * v + c) * p[2]
+        )
+        newPath.append(newPoint)
     return newPath
 
 
@@ -105,7 +120,7 @@ def generate_path(origin, radius, num, angle, axis):
     distance_between = (2.0 * np.pi) / float(num)
     for i in range(num + 1):
         index = i * distance_between
-    	path.append(radius * np.array([np.cos(index), np.sin(index), 0.0]))
+        path.append(radius * np.array([np.cos(index), np.sin(index), 0.0]))
     # Rotate using the rotation function
     path = rotate_path(path, angle, axis)
     # Add origin to path:
@@ -124,30 +139,38 @@ def generate_movement(path):
     movement = FollowJointTrajectoryGoal()
     # Names describes which joint is actuated by which element in the coming
     # matrices
-    movement.trajectory.joint_names.extend(['joint_1', 'joint_2', 'joint_3'])
+    movement.trajectory.joint_names.extend(["joint_1", "joint_2", "joint_3"])
     # Goal tolerance describes how much we allow the movement to deviate
     # from true value at the end
-    movement.goal_tolerance.extend([
-        JointTolerance('joint_1', 0.1, 0., 0.),
-        JointTolerance('joint_2', 0.1, 0., 0.),
-        JointTolerance('joint_3', 0.1, 0., 0.)])
+    movement.goal_tolerance.extend(
+        [
+            JointTolerance("joint_1", 0.1, 0.0, 0.0),
+            JointTolerance("joint_2", 0.1, 0.0, 0.0),
+            JointTolerance("joint_3", 0.1, 0.0, 0.0),
+        ]
+    )
     # Goal time is how many seconds we allow the movement to take beyond
     # what we define in the trajectory
     movement.goal_time_tolerance = rospy.Duration(0.5)  # seconds
     time = 4.0  # Cumulative time since start in seconds
-    movement.trajectory.points.append(create_trajectory_point([0., 0., np.pi / 2.], time))
+    movement.trajectory.points.append(
+        create_trajectory_point([0.0, 0.0, np.pi / 2.0], time)
+    )
     # Calculate total circle length
     length = path_length(path)
     # Calculate how much time we have to process each point of the circle
-    time_delta = (length / 2.) / len(path)
+    time_delta = (length / 2.0) / len(path)
     for point in path[1:]:
-    	time += time_delta
-    	movement.trajectory.points.append(create_trajectory_point(inverse_kinematic(point), time))
-	
+        time += time_delta
+        movement.trajectory.points.append(
+            create_trajectory_point(inverse_kinematic(point), time)
+        )
+
     # Once drawing is done we add the default position
     time += 4.0
     movement.trajectory.points.append(
-        create_trajectory_point([0., 0., np.pi / 2.], time))
+        create_trajectory_point([0.0, 0.0, np.pi / 2.0], time)
+    )
     return movement
 
 
@@ -165,8 +188,8 @@ def draw_circle(origin, radius, num, angle, axis):
     # First start by creating action client, this is responsible for passing
     # our parameters and monitoring the Crustcrawler during operations
     client = actionlib.SimpleActionClient(
-            '/crustcrawler/controller/follow_joint_trajectory',
-            FollowJointTrajectoryAction)
+        "/crustcrawler/controller/follow_joint_trajectory", FollowJointTrajectoryAction
+    )
     # Generate circle path
     path = generate_path(origin, radius, num, angle, axis)
     # Generate arm movement path
@@ -182,53 +205,92 @@ def draw_circle(origin, radius, num, angle, axis):
     if not result.error_code:
         print("Crustcrawler done!")
     else:
-        print("Crustcrawler failed due to: '{!s}'({!s})"
-              .format(result.error_string, result.error_code))
+        print(
+            "Crustcrawler failed due to: '{!s}'({!s})".format(
+                result.error_string, result.error_code
+            )
+        )
     return result.error_code
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import argparse
     import sys
+
     # Create command line parser and add options:
     parser = argparse.ArgumentParser(
-            description="CrustCrawler circle drawer TM(C), patent pending!",
-            version="Spring 2018")
+        description="CrustCrawler circle drawer TM(C), patent pending!",
+        version="Spring 2018",
+    )
     parser.add_argument(
-            '--origin', '-o', type=float, nargs=3,
-            metavar=('x', 'y', 'z'), required=True,
-            help="Origin of the board")
+        "--origin",
+        "-o",
+        type=float,
+        nargs=3,
+        metavar=("x", "y", "z"),
+        required=True,
+        help="Origin of the board",
+    )
     parser.add_argument(
-            '--radius', '-r', type=float, default=5.0,
-            metavar='cm', help="The radius of the circle to draw")
+        "--radius",
+        "-r",
+        type=float,
+        default=5.0,
+        metavar="cm",
+        help="The radius of the circle to draw",
+    )
     parser.add_argument(
-            '--num_points', '-n', type=int,
-            default=4, metavar='num',
-            help="Number of points to use when drawing the circle")
+        "--num_points",
+        "-n",
+        type=int,
+        default=4,
+        metavar="num",
+        help="Number of points to use when drawing the circle",
+    )
     parser.add_argument(
-            '--orientation', '-orient', type=float, default=0.0,
-            metavar='degrees',
-            help="Orientation of the board along the X-axis")
+        "--orientation",
+        "-orient",
+        type=float,
+        default=0.0,
+        metavar="degrees",
+        help="Orientation of the board along the X-axis",
+    )
     args = parser.parse_args()
     # Ensure points are NumPy arrays
     args.origin = np.array(args.origin)
-    orient = np.array([0, 1., 0])
+    orient = np.array([0, 1.0, 0])
     # Ensure that arguments are within legal limits:
     if 0.0 > args.orientation or args.orientation > 90.0:
-        sys.exit("Orientation must be in range [0.0, 90.0], was: {:.1f}"
-                 .format(args.orientation))
+        sys.exit(
+            "Orientation must be in range [0.0, 90.0], was: {:.1f}".format(
+                args.orientation
+            )
+        )
     if 3 >= args.num_points <= 101:
-        sys.exit("Number of points must be in range [3, 101] was: {:d}"
-                 .format(args.num_points))
+        sys.exit(
+            "Number of points must be in range [3, 101] was: {:d}".format(
+                args.num_points
+            )
+        )
     max_dist = np.linalg.norm(args.origin)
     if max_dist - args.radius < 20.0:
-        sys.exit("Circle to close to the robot! Minimum: 40cm, was: {:.2f}"
-                 .format(max_dist - args.radius))
+        sys.exit(
+            "Circle to close to the robot! Minimum: 40cm, was: {:.2f}".format(
+                max_dist - args.radius
+            )
+        )
     # Create ROS node
-    rospy.init_node('circle_drawer', anonymous=True)
+    rospy.init_node("circle_drawer", anonymous=True)
     # Call function to draw circle
     try:
-        sys.exit(draw_circle(args.origin, args.radius, args.num_points,
-                             np.deg2rad(args.orientation), orient))
+        sys.exit(
+            draw_circle(
+                args.origin,
+                args.radius,
+                args.num_points,
+                np.deg2rad(args.orientation),
+                orient,
+            )
+        )
     except rospy.ROSInterruptException:
         sys.exit("Program aborted during circle drawing")
