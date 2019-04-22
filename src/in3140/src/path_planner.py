@@ -15,6 +15,7 @@ import actionlib
 import numpy as np
 import rospy
 from image_to_path import imageToPath
+from inverse_kinematics import getThetas
 
 
 def path_length(path):
@@ -37,20 +38,7 @@ def inverse_kinematic(position):
     :param position: Desired end-point position
     :returns: Three element vector of joint angles
     """
-    # TODO: Implement inverse kinematics function using your equations from assignment 1 task 5).
-    L1 = 100.9
-    L2 = 222.1
-    L3 = 136.2
-    x = position[0]
-    y = position[1]
-    z = position[2]
-    r = np.sqrt(x ** 2 + y ** 2)
-    s = z - L1
-    D = (r ** 2 + s ** 2 - L2 ** 2 - L3 ** 2) / (2 * L2 * L3)
-    t1 = np.arctan2(y, x) - np.pi / 2
-    t3 = np.arctan2(np.sqrt(1 - D ** 2), D)
-    t2 = np.arctan2(L3 * np.sin(t3), L2 + L3 * np.cos(t3)) - np.arctan2(s, r)
-    return [t1, t2, t3]
+    return getThetas(position)
 
 
 def create_trajectory_point(position, seconds):
@@ -105,7 +93,7 @@ def rotate_path(path, angle, axis):
     return newPath
 
 
-def generate_path(origin, radius, num, angle, axis):
+def generate_path(image, origin, angle, axis):
     """
     VLADIMMO
     Generate path in 3D space of where to draw circle
@@ -116,11 +104,7 @@ def generate_path(origin, radius, num, angle, axis):
     :param axis: Unit vector to rotate circle around
     :returns: List of points to draw, where a point is an array: [x, y, z]
     """
-    path = []
-    distance_between = (2.0 * np.pi) / float(num)
-    for i in range(num + 1):
-        index = i * distance_between
-        path.append(radius * np.array([np.cos(index), np.sin(index), 0.0]))
+    path = imageToPath(image, 20, False)
     # Rotate using the rotation function
     path = rotate_path(path, angle, axis)
     # Add origin to path:
@@ -174,16 +158,15 @@ def generate_movement(path):
     return movement
 
 
-def draw_circle(origin, radius, num, angle, axis):
+def draw_image(image, origin, angle, axis):
     """
     VLADIMMO
-    Draw circle using Crustcrawler
+    Draw image using Crustcrawler
 
-    :param origin: 3D point of circle origin
-    :param radius: Radius of circle in centimeters
-    :param num: Number of points in circle
-    :param angle: Angle to rotate circle by
-    :param axis: Unit vector to rotate circle around
+    :param image: The image file to draw
+    :param origin: 3D point of drawing origin
+    :param angle: Angle to rotate the drawing by
+    :param axis: Unit vector to rotate the drawing around
     """
     # First start by creating action client, this is responsible for passing
     # our parameters and monitoring the Crustcrawler during operations
@@ -191,7 +174,7 @@ def draw_circle(origin, radius, num, angle, axis):
         "/crustcrawler/controller/follow_joint_trajectory", FollowJointTrajectoryAction
     )
     # Generate circle path
-    path = generate_path(origin, radius, num, angle, axis)
+    path = generate_path(image, origin, angle, axis)
     # Generate arm movement path
     goal = generate_movement(path)
     # Wait for arm to respond to action client
@@ -223,6 +206,9 @@ if __name__ == "__main__":
         version="Spring 2018",
     )
     parser.add_argument(
+        "--image", "-img", type=str, nargs=1, required=True, help="Image file to draw"
+    )
+    parser.add_argument(
         "--origin",
         "-o",
         type=float,
@@ -230,22 +216,6 @@ if __name__ == "__main__":
         metavar=("x", "y", "z"),
         required=True,
         help="Origin of the board",
-    )
-    parser.add_argument(
-        "--radius",
-        "-r",
-        type=float,
-        default=5.0,
-        metavar="cm",
-        help="The radius of the circle to draw",
-    )
-    parser.add_argument(
-        "--num_points",
-        "-n",
-        type=int,
-        default=4,
-        metavar="num",
-        help="Number of points to use when drawing the circle",
     )
     parser.add_argument(
         "--orientation",
@@ -284,13 +254,7 @@ if __name__ == "__main__":
     # Call function to draw circle
     try:
         sys.exit(
-            draw_circle(
-                args.origin,
-                args.radius,
-                args.num_points,
-                np.deg2rad(args.orientation),
-                orient,
-            )
+            draw_image(args.image, args.origin, np.deg2rad(args.orientation), orient)
         )
     except rospy.ROSInterruptException:
         sys.exit("Program aborted during circle drawing")

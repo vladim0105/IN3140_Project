@@ -26,7 +26,7 @@ def imageToPath(imageFile, liftHeight, isCareful):
     cv2.imshow("output", edges)
     cv2.waitKey(0)
 
-    return
+    return finalPath
 
 
 def finalizePath(path, liftHeight, proper):
