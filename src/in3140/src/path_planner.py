@@ -14,7 +14,7 @@ from trajectory_msgs.msg import JointTrajectoryPoint
 import actionlib
 import numpy as np
 import rospy
-from image_to_path import getContourPaths
+from image_to_path import imageToPath
 
 
 def path_length(path):
