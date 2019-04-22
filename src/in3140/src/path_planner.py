@@ -237,12 +237,6 @@ if __name__ == "__main__":
             )
         )
     max_dist = np.linalg.norm(args.origin)
-    if max_dist - args.radius < 20.0:
-        sys.exit(
-            "Circle to close to the robot! Minimum: 40cm, was: {:.2f}".format(
-                max_dist - args.radius
-            )
-        )
     # Create ROS node
     rospy.init_node("circle_drawer", anonymous=True)
     # Call function to draw circle
