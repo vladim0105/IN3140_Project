@@ -236,12 +236,6 @@ if __name__ == "__main__":
                 args.orientation
             )
         )
-    if 3 >= args.num_points <= 101:
-        sys.exit(
-            "Number of points must be in range [3, 101] was: {:d}".format(
-                args.num_points
-            )
-        )
     max_dist = np.linalg.norm(args.origin)
     if max_dist - args.radius < 20.0:
         sys.exit(
