@@ -53,7 +53,6 @@ def combine(*args):
 
 
 def positionsFromEdges(edges):
-    print(edges)
     y, x = np.where(edges == 255)
     positions = []
     for posx, posy in zip(x, y):
