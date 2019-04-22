@@ -206,7 +206,7 @@ if __name__ == "__main__":
         version="Spring 2018",
     )
     parser.add_argument(
-        "--image", "-img", type=str, nargs=1, required=True, help="Image file to draw"
+        "--image", "-img", type=str, required=True, help="Image file to draw"
     )
     parser.add_argument(
         "--origin",
