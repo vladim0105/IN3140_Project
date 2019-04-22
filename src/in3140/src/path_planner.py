@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 """
-This node is designed to take in a circle drawing description and perform
-the necessary calculations and commands to draw the circle using the
+This node is designed to take in a image drawing description and perform
+the necessary calculations and commands to draw the image using the
 Crustcrawler platform
 """
 
@@ -96,12 +96,12 @@ def rotate_path(path, angle, axis):
 def generate_path(image, origin, angle, axis):
     """
     VLADIMMO
-    Generate path in 3D space of where to draw circle
-    :param origin: 3D point of circle origin
-    :param radius: Radius of circle in centimeters
-    :param num: Number of points in circle
-    :param angle: Angle to rotate circle by
-    :param axis: Unit vector to rotate circle around
+    Generate path in 3D space of where to draw image
+    :param origin: 3D point of image origin
+    :param radius: Radius of image in centimeters
+    :param num: Number of points in image
+    :param angle: Angle to rotate image by
+    :param axis: Unit vector to rotate image around
     :returns: List of points to draw, where a point is an array: [x, y, z]
     """
     path = imageToPath(image, 20, False)
@@ -140,9 +140,9 @@ def generate_movement(path):
     movement.trajectory.points.append(
         create_trajectory_point([0.0, 0.0, np.pi / 2.0], time)
     )
-    # Calculate total circle length
+    # Calculate total image length
     length = path_length(path)
-    # Calculate how much time we have to process each point of the circle
+    # Calculate how much time we have to process each point of the image
     time_delta = (length / 2.0) / len(path)
     for point in path[1:]:
         time += time_delta
@@ -173,7 +173,7 @@ def draw_image(image, origin, angle, axis):
     client = actionlib.SimpleActionClient(
         "/crustcrawler/controller/follow_joint_trajectory", FollowJointTrajectoryAction
     )
-    # Generate circle path
+    # Generate image path
     path = generate_path(image, origin, angle, axis)
     # Generate arm movement path
     goal = generate_movement(path)
@@ -202,7 +202,7 @@ if __name__ == "__main__":
 
     # Create command line parser and add options:
     parser = argparse.ArgumentParser(
-        description="CrustCrawler circle drawer TM(C), patent pending!",
+        description="CrustCrawler image drawer TM(C), patent pending!",
         version="Spring 2018",
     )
     parser.add_argument(
@@ -238,11 +238,11 @@ if __name__ == "__main__":
         )
     max_dist = np.linalg.norm(args.origin)
     # Create ROS node
-    rospy.init_node("circle_drawer", anonymous=True)
-    # Call function to draw circle
+    rospy.init_node("image_drawer", anonymous=True)
+    # Call function to draw image
     try:
         sys.exit(
             draw_image(args.image, args.origin, np.deg2rad(args.orientation), orient)
         )
     except rospy.ROSInterruptException:
-        sys.exit("Program aborted during circle drawing")
+        sys.exit("Program aborted during image drawing")
