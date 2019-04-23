@@ -9,7 +9,6 @@ def imageToPath(imageFile, liftHeight, isCareful):
     img = cv2.imread(imageFile)
     edges = cv2.Canny(img, 100, 250)
     positions = positionsFromEdges(edges)
-    print(len(positions))
     # Optimize x-lines. Positions already sorted by y, then x
     optimizedX, unoptimized = optimizeX(positions)
     # Sort unoptimzed points by x, then y in order the get the y-lines
@@ -118,3 +117,37 @@ def splitOptimizedFromUnoptimized(path):
         else:
             optimized.append(position)
     return np.array(optimized), np.array(unoptimized)
+
+
+def imageToPathAlt(imageFile, liftHeight, isCareful):
+    img = cv2.imread(imageFile)
+    edges = cv2.Canny(img, 0, 250)
+    contours, hierarchy = cv2.findContours(
+        edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE
+    )
+
+    contourDrawing = np.zeros(edges.shape)
+    cv2.drawContours(contourDrawing, contours, -1, (0.5, 1, 0), 1)
+    cv2.namedWindow("output", cv2.WINDOW_NORMAL)
+    cv2.resizeWindow("output", 500, 500)
+    cv2.imshow("output", contourDrawing)
+    cv2.waitKey(0)
+    return handleContourData(contours, liftHeight, isCareful)
+
+
+def handleContourData(contours, liftHeight, isCareful):
+    path = []
+    for iContour in range(len(contours)):
+        position = contours[iContour][0]
+        position = np.append(position, liftHeight)
+        path.append(position)
+        for iPosition in range(len(contours[iContour])):
+            position = contours[iContour][iPosition]
+            position = np.append(position, 0)
+            path.append(position)
+        position = contours[iContour][len(contours[iContour]) - 1]
+        position = np.append(position, liftHeight)
+        if isCareful:
+            path.append(position)
+    return path
+
