@@ -18,7 +18,6 @@ from image_to_path import imageToPath, imageToPathAlt
 from inverse_kinematics import getThetas
 
 
-
 def inverse_kinematic(position):
     """
     Calculate the inverse kinematic of the Crustcrawler
@@ -95,8 +94,11 @@ def generate_path(image, origin, angle, axis):
     :param axis: Unit vector to rotate image around
     :returns: List of points to draw, where a point is an array: [x, y, z]
     """
-    print(image)
-    path = imageToPath(image, args.lift_height, True)
+    path = []
+    if args.alternative:
+        path = imageToPathAlt(image, args.lift_height, args.careful)
+    else:
+        path = imageToPath(image, args.lift_height, args.careful)
     # Rotate using the rotation function
     path = rotate_path(path, angle, axis)
     # Add origin to path:
@@ -129,21 +131,25 @@ def generate_movement(path):
     # what we define in the trajectory
     movement.goal_time_tolerance = rospy.Duration(2)  # seconds
     time = 4.0  # Cumulative time since start in seconds
-    #start_pos = inverse_kinematic([0.0, 0.0, np.pi / 2.0])
+    # start_pos = inverse_kinematic([0.0, 0.0, np.pi / 2.0])
     movement.trajectory.points.append(
         create_trajectory_point([0.0, 0.0, np.pi / 2.0], time)
     )
-    #First point in path will require extra time
-    time+=12.0
+    # First point in path will require extra time
+    time += 12.0
     movement.trajectory.points.append(
-            create_trajectory_point(inverse_kinematic(path[0]), time)
-        )
-    #The rest of the points
+        create_trajectory_point(inverse_kinematic(path[0]), time)
+    )
+    # The rest of the points
     for i_point in range(1, len(path)):
-        prev_point = path[i_point-1]
-	point = path[i_point]
-        delta = [point[0]-prev_point[0], point[1]-prev_point[1], point[2]-prev_point[2]]
-        dist = np.sqrt(delta[0]**2+delta[1]**2+delta[2]**2)
+        prev_point = path[i_point - 1]
+        point = path[i_point]
+        delta = [
+            point[0] - prev_point[0],
+            point[1] - prev_point[1],
+            point[2] - prev_point[2],
+        ]
+        dist = np.sqrt(delta[0] ** 2 + delta[1] ** 2 + delta[2] ** 2)
         time += dist
         print("Point (deltatime, coordinates, joint rotations):")
         print(dist)
@@ -213,7 +219,25 @@ if __name__ == "__main__":
         "--image", "-img", type=str, required=True, help="Image file to draw"
     )
     parser.add_argument(
-        "--lift_height", "-lift", type=int, required=True, help="Distance to lift in order to not draw"
+        "--lift_height",
+        "-lift",
+        type=int,
+        required=True,
+        help="Distance to lift in order to not draw",
+    )
+    parser.add_argument(
+        "--careful",
+        "-crfl",
+        type=bool,
+        default=False,
+        help="Whether or not the robot should be careful when drawing",
+    )
+    parser.add_argument(
+        "--alternative",
+        "-alt",
+        type=bool,
+        default=False,
+        help="Whether or not to use the alternative path generation",
     )
     parser.add_argument(
         "--origin",

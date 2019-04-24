@@ -36,9 +36,9 @@ def finalizePath(path, liftHeight, proper):
         if entry[3] <= 0:
             finalPath.append(liftEntry)
         finalPath.append(newEntry)
-        if (entry[3] or index==len(path)-1) > 0 and proper:
+        if (entry[3] or index == len(path) - 1) > 0 and proper:
             finalPath.append(liftEntry)
-        index+=1
+        index += 1
 
     return np.array(finalPath)
 
