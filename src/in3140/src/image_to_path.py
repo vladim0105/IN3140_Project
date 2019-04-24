@@ -19,7 +19,6 @@ def imageToPath(imageFile, liftHeight, isCareful):
     totalPath = combine(optimizedX, optimizedY, unoptimized)
     finalPath = finalizePath(totalPath, liftHeight, isCareful)
     np.savetxt("path_debug.txt", finalPath, fmt="%1.1i")
-
     cv2.namedWindow("output", cv2.WINDOW_NORMAL)
     cv2.resizeWindow("output", 500, 500)
     cv2.imshow("output", edges)
@@ -30,14 +29,16 @@ def imageToPath(imageFile, liftHeight, isCareful):
 
 def finalizePath(path, liftHeight, proper):
     finalPath = []
+    index = 0
     for entry in path:
         newEntry = np.array([entry[0], entry[1], entry[2]])
         liftEntry = np.array([entry[0], entry[1], liftHeight])
         if entry[3] <= 0:
             finalPath.append(liftEntry)
         finalPath.append(newEntry)
-        if entry[3] > 0 and proper:
+        if (entry[3] or index==len(path)-1) > 0 and proper:
             finalPath.append(liftEntry)
+        index+=1
 
     return np.array(finalPath)
 
@@ -122,8 +123,8 @@ def splitOptimizedFromUnoptimized(path):
 def imageToPathAlt(imageFile, liftHeight, isCareful):
     img = cv2.imread(imageFile)
     edges = cv2.Canny(img, 0, 250)
-    contours, hierarchy = cv2.findContours(
-        edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE
+    im2, contours, hierarchy = cv2.findContours(
+        edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE
     )
 
     contourDrawing = np.zeros(edges.shape)

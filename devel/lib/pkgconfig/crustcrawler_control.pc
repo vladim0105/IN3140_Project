@@ -1,8 +1,8 @@
-prefix=/home/vladimmo/M-drive/IN3140_Project/devel
+prefix=/home/vladimmo/M-drive/project/devel
 
 Name: crustcrawler_control
 Description: Description of crustcrawler_control
 Version: 0.0.1
 Cflags: 
-Libs: -L/home/vladimmo/M-drive/IN3140_Project/devel/lib 
+Libs: -L/home/vladimmo/M-drive/project/devel/lib 
 Requires: 

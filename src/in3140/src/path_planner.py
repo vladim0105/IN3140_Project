@@ -14,21 +14,9 @@ from trajectory_msgs.msg import JointTrajectoryPoint
 import actionlib
 import numpy as np
 import rospy
-from image_to_path import imageToPath
+from image_to_path import imageToPath, imageToPathAlt
 from inverse_kinematics import getThetas
 
-
-def path_length(path):
-    """
-    Calculate path length in centimeters
-
-    :param path: List of points
-    :returns: Length of path in centimeters
-    """
-    length = 0.0
-    for p1, p0 in zip(path[1:], path):
-        length += np.linalg.norm(p1 - p0)
-    return length
 
 
 def inverse_kinematic(position):
@@ -51,6 +39,9 @@ def create_trajectory_point(position, seconds):
     """
     point = JointTrajectoryPoint()
     point.positions.extend(position)
+    point.velocities = [0.001, 0.001, 0.001]
+    point.accelerations = [0.0001, 0.0001, 0.0001]
+    point.effort = [10000, 10000, 10000]
     point.time_from_start = rospy.Duration(seconds)
     return point
 
@@ -104,7 +95,8 @@ def generate_path(image, origin, angle, axis):
     :param axis: Unit vector to rotate image around
     :returns: List of points to draw, where a point is an array: [x, y, z]
     """
-    path = imageToPath(image, 20, False)
+    print(image)
+    path = imageToPath(image, args.lift_height, True)
     # Rotate using the rotation function
     path = rotate_path(path, angle, axis)
     # Add origin to path:
@@ -135,23 +127,35 @@ def generate_movement(path):
     )
     # Goal time is how many seconds we allow the movement to take beyond
     # what we define in the trajectory
-    movement.goal_time_tolerance = rospy.Duration(0.5)  # seconds
+    movement.goal_time_tolerance = rospy.Duration(2)  # seconds
     time = 4.0  # Cumulative time since start in seconds
+    #start_pos = inverse_kinematic([0.0, 0.0, np.pi / 2.0])
     movement.trajectory.points.append(
         create_trajectory_point([0.0, 0.0, np.pi / 2.0], time)
     )
-    # Calculate total image length
-    length = path_length(path)
-    # Calculate how much time we have to process each point of the image
-    time_delta = (length / 2.0) / len(path)
-    for point in path[1:]:
-        time += time_delta
+    #First point in path will require extra time
+    time+=12.0
+    movement.trajectory.points.append(
+            create_trajectory_point(inverse_kinematic(path[0]), time)
+        )
+    #The rest of the points
+    for i_point in range(1, len(path)):
+        prev_point = path[i_point-1]
+	point = path[i_point]
+        delta = [point[0]-prev_point[0], point[1]-prev_point[1], point[2]-prev_point[2]]
+        dist = np.sqrt(delta[0]**2+delta[1]**2+delta[2]**2)
+        time += dist
+        print("Point (deltatime, coordinates, joint rotations):")
+        print(dist)
+        print(point)
+        print(np.degrees(inverse_kinematic(point)))
+        print("---------------------------------------")
         movement.trajectory.points.append(
             create_trajectory_point(inverse_kinematic(point), time)
         )
 
     # Once drawing is done we add the default position
-    time += 4.0
+    time += 8.0
     movement.trajectory.points.append(
         create_trajectory_point([0.0, 0.0, np.pi / 2.0], time)
     )
@@ -207,6 +211,9 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--image", "-img", type=str, required=True, help="Image file to draw"
+    )
+    parser.add_argument(
+        "--lift_height", "-lift", type=int, required=True, help="Distance to lift in order to not draw"
     )
     parser.add_argument(
         "--origin",
