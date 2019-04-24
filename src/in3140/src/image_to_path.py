@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 
 
-def imageToPath(imageFile, liftHeight, isCareful):
+def imageToPath(imageFile, liftHeight, isCareful, scale):
     # Load in image as grayscale (so that we only work with one color channel)
     img = cv2.imread(imageFile)
     edges = cv2.Canny(img, 100, 250)
@@ -17,7 +17,7 @@ def imageToPath(imageFile, liftHeight, isCareful):
     optimizedY, unoptimized = optimizeY(unoptimized)
 
     totalPath = combine(optimizedX, optimizedY, unoptimized)
-    finalPath = finalizePath(totalPath, liftHeight, isCareful)
+    finalPath = finalizePath(totalPath, liftHeight, isCareful, scale)
     np.savetxt("path_debug.txt", finalPath, fmt="%1.1i")
     cv2.namedWindow("output", cv2.WINDOW_NORMAL)
     cv2.resizeWindow("output", 500, 500)
@@ -27,16 +27,16 @@ def imageToPath(imageFile, liftHeight, isCareful):
     return finalPath
 
 
-def finalizePath(path, liftHeight, proper):
+def finalizePath(path, liftHeight, isCareful, scale):
     finalPath = []
     index = 0
     for entry in path:
-        newEntry = np.array([entry[0], entry[1], entry[2]])
-        liftEntry = np.array([entry[0], entry[1], liftHeight])
+        newEntry = np.array([entry[0] * scale, entry[1] * scale, entry[2]])
+        liftEntry = np.array([entry[0] * scale, entry[1] * scale, liftHeight])
         if entry[3] <= 0:
             finalPath.append(liftEntry)
         finalPath.append(newEntry)
-        if (entry[3] or index == len(path) - 1) > 0 and proper:
+        if (entry[3] or index == len(path) - 1) > 0 and isCareful:
             finalPath.append(liftEntry)
         index += 1
 
@@ -120,7 +120,7 @@ def splitOptimizedFromUnoptimized(path):
     return np.array(optimized), np.array(unoptimized)
 
 
-def imageToPathAlt(imageFile, liftHeight, isCareful):
+def imageToPathAlt(imageFile, liftHeight, isCareful, scale):
     img = cv2.imread(imageFile)
     edges = cv2.Canny(img, 0, 250)
     im2, contours, hierarchy = cv2.findContours(
@@ -133,22 +133,21 @@ def imageToPathAlt(imageFile, liftHeight, isCareful):
     cv2.resizeWindow("output", 500, 500)
     cv2.imshow("output", contourDrawing)
     cv2.waitKey(0)
-    return handleContourData(contours, liftHeight, isCareful)
+    return handleContourData(contours, liftHeight, isCareful, scale)
 
 
-def handleContourData(contours, liftHeight, isCareful):
+def handleContourData(contours, liftHeight, isCareful, scale):
     path = []
     for iContour in range(len(contours)):
-        position = contours[iContour][0]
+        position = np.multiply(contours[iContour][0], scale)
         position = np.append(position, liftHeight)
         path.append(position)
         for iPosition in range(len(contours[iContour])):
-            position = contours[iContour][iPosition]
+            position = np.multiply(contours[iContour][iPosition], scale)
             position = np.append(position, 0)
             path.append(position)
         position = contours[iContour][len(contours[iContour]) - 1]
         position = np.append(position, liftHeight)
         if isCareful:
             path.append(position)
-    return path
-
+    return np.array(path)

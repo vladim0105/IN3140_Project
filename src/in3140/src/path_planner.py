@@ -96,9 +96,9 @@ def generate_path(image, origin, angle, axis):
     """
     path = []
     if args.alternative:
-        path = imageToPathAlt(image, args.lift_height, args.careful)
+        path = imageToPathAlt(image, args.lift_height, args.careful, args.scale)
     else:
-        path = imageToPath(image, args.lift_height, args.careful)
+        path = imageToPath(image, args.lift_height, args.careful, args.scale)
     # Rotate using the rotation function
     path = rotate_path(path, angle, axis)
     # Add origin to path:
@@ -238,6 +238,9 @@ if __name__ == "__main__":
         type=bool,
         default=False,
         help="Whether or not to use the alternative path generation",
+    )
+    parser.add_argument(
+        "--scale", "-scl", type=float, default=1.0, help="The scale of the image"
     )
     parser.add_argument(
         "--origin",
