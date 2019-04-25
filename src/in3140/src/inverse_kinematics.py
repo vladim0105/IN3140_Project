@@ -37,8 +37,8 @@ def getThetas(position):
     D = (c_squared - L_2 ** 2 - L_3 ** 2) / (2 * L_2 * L_3)
     t_1 = np.arctan2(y, x) + np.pi / 2
     t_3 = np.arctan2(np.sqrt(1 - D ** 2), D)
-    t_2 = -np.arctan2(s, r) + np.arctan2(
-        np.cos(np.pi / 2 - t_3), (L_2 + L_3 * np.sin(np.pi / 2 - t_3))
+    t_2 = np.pi/2 -np.arctan2(s, r) - np.arctan2(
+        L_3*np.cos(np.pi / 2 - t_3), (L_2 + L_3 * np.sin(np.pi / 2 - t_3))
     )
 
     return [t_1, t_2, t_3]
