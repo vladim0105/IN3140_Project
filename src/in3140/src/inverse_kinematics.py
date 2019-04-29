@@ -38,6 +38,17 @@ def getThetas(position):
 
     r = np.sqrt(x ** 2 + y ** 2)
     s = z - L_1
+    c_squared = s ** 2 + r ** 2
+    D = (c_squared - L_2 ** 2 - L_3 ** 2) / (2 * L_2 * L_3)
+    t_1 = np.arctan2(y, x) + np.pi / 2
+    t_3 = np.arctan2(np.sqrt(1 - D ** 2), D)
+    t_2 = (
+        np.pi / 2
+        - np.arctan2(s, r)
+        - np.arctan2(
+            L_3 * np.cos(np.pi / 2 - t_3), (L_2 + L_3 * np.sin(np.pi / 2 - t_3))
+        )
+    )
 
     c_3 = np.sqrt(L_3 ** 2 + L_4 ** 2 - 2 * L_3 * L_4 * np.cos(t_4))
     cw_1 = (L_3 ** 2 - L_4 ** 2 + c_3 ** 2) / (2 * L_3 * c_3)
