@@ -1,8 +1,8 @@
 import numpy as np
 
-L_1 = 100.9 / 10
-L_2 = 222.1 / 10
-L_3 = 136.2 / 10
+L_1 = 11.0
+L_2 = 22.3
+L_3 = 17.0
 L_4 = 8.0
 t_4 = np.radians(180 - 45)
 
@@ -24,16 +24,6 @@ def isValid(cart_coord):
     if dist < inner or dist > outer:
         return False
     return True
-
-
-def getThetas(position):
-    if not (isValid(position)):
-        print("Coordinates not valid!")
-        return None
-    x = position[0]
-    y = position[1]
-    z = position[2]
-
 
 def getThetas(position):
     if not (isValid(position)):
