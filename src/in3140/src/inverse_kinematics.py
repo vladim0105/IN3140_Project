@@ -25,16 +25,6 @@ def isValid(cart_coord):
         return False
     return True
 
-
-def getThetas(position):
-    if not (isValid(position)):
-        print("Coordinates not valid!")
-        return None
-    x = position[0]
-    y = position[1]
-    z = position[2]
-
-
 def getThetas(position):
     if not (isValid(position)):
         print("Coordinates not valid!")
