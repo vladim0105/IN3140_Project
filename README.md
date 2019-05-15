@@ -19,5 +19,6 @@ Arguments:
     --scale/-scl //How much to scale the image, default: 1
     --careful //Create more liftpoints to avoid accidents
     --origin/-o //The origin of where to draw the image, pivot on image is top-left corner.
+    --alternative/-alt //Use the alternative and perhaps smarter OpenCV contour algorithm
 
 Important to note that by default the program treats 1px as 1cm, therefore scaling down may be required to keep the image within the workspace of the robot.
